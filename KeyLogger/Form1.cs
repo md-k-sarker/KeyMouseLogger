@@ -31,6 +31,23 @@ namespace KeyLogger
         public Form1()
         {
             InitializeComponent();
+            string message = "";
+            message += "Below information will be logged. \n" +
+                "1. Total Key pressed in the keyboard, not the Key\n" +
+                "2. Totla Mouse click \n" +
+                "3. Total time \n\n" +
+                "Do you agree?";
+
+            DialogResult result = MessageBox.Show(message, "Agree or not", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (result == DialogResult.Yes)
+            {
+
+            }
+            else if(result == DialogResult.No)
+            {
+               // Application.Exit();
+                Environment.Exit(0);
+            }
 
         }
 
@@ -193,6 +210,23 @@ namespace KeyLogger
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
 
+        }
+
+        [DllImport("user32")]
+        public static extern void LockWorkStation();
+        private void button1_Click(object sender, EventArgs e)
+        {
+            // LockWorkStation();
+            Process[] process = Process.GetProcesses();
+            foreach (Process p in process)
+            {
+                if (p.ProcessName.StartsWith("javaw"))
+                {
+                    MessageBox.Show(p.ProcessName);
+                    p.Kill();
+                }
+
+            }
         }
     }
 }
