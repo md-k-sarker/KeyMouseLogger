@@ -15,7 +15,10 @@ namespace KeyLogger
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+<<<<<<< HEAD
 
+=======
+>>>>>>> de3253b... Refactoring source code
             Application.Run(new MainForm());
         }
     }

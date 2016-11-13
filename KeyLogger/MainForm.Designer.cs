@@ -28,12 +28,17 @@
         /// </summary>
         private void InitializeComponent()
         {
+<<<<<<< HEAD
             this.components = new System.ComponentModel.Container();
             this.lblKeyClickCount = new System.Windows.Forms.Label();
+=======
+            this.label1 = new System.Windows.Forms.Label();
+>>>>>>> de3253b... Refactoring source code
             this.btnStart = new System.Windows.Forms.Button();
             this.btnStop = new System.Windows.Forms.Button();
             this.txtBxKeyClick = new System.Windows.Forms.TextBox();
             this.txtBxMouseClick = new System.Windows.Forms.TextBox();
+<<<<<<< HEAD
             this.lblMouseClickCount = new System.Windows.Forms.Label();
             this.btnReset = new System.Windows.Forms.Button();
             this.txtBxTotalClickCounter = new System.Windows.Forms.TextBox();
@@ -53,6 +58,22 @@
             this.lblKeyClickCount.Size = new System.Drawing.Size(82, 13);
             this.lblKeyClickCount.TabIndex = 0;
             this.lblKeyClickCount.Text = "Key Click Count";
+=======
+            this.label2 = new System.Windows.Forms.Label();
+            this.btnReset = new System.Windows.Forms.Button();
+            this.txtBxTotalClickCounter = new System.Windows.Forms.TextBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.SuspendLayout();
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(41, 102);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(82, 13);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "Key Click Count";
+>>>>>>> de3253b... Refactoring source code
             // 
             // btnStart
             // 
@@ -76,7 +97,11 @@
             // 
             // txtBxKeyClick
             // 
+<<<<<<< HEAD
             this.txtBxKeyClick.Location = new System.Drawing.Point(267, 246);
+=======
+            this.txtBxKeyClick.Location = new System.Drawing.Point(151, 99);
+>>>>>>> de3253b... Refactoring source code
             this.txtBxKeyClick.Name = "txtBxKeyClick";
             this.txtBxKeyClick.ReadOnly = true;
             this.txtBxKeyClick.Size = new System.Drawing.Size(67, 20);
@@ -84,12 +109,17 @@
             // 
             // txtBxMouseClick
             // 
+<<<<<<< HEAD
             this.txtBxMouseClick.Location = new System.Drawing.Point(267, 279);
+=======
+            this.txtBxMouseClick.Location = new System.Drawing.Point(151, 132);
+>>>>>>> de3253b... Refactoring source code
             this.txtBxMouseClick.Name = "txtBxMouseClick";
             this.txtBxMouseClick.ReadOnly = true;
             this.txtBxMouseClick.Size = new System.Drawing.Size(67, 20);
             this.txtBxMouseClick.TabIndex = 5;
             // 
+<<<<<<< HEAD
             // lblMouseClickCount
             // 
             this.lblMouseClickCount.AutoSize = true;
@@ -98,6 +128,16 @@
             this.lblMouseClickCount.Size = new System.Drawing.Size(96, 13);
             this.lblMouseClickCount.TabIndex = 4;
             this.lblMouseClickCount.Text = "Mouse Click Count";
+=======
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(41, 135);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(96, 13);
+            this.label2.TabIndex = 4;
+            this.label2.Text = "Mouse Click Count";
+>>>>>>> de3253b... Refactoring source code
             // 
             // btnReset
             // 
@@ -111,11 +151,16 @@
             // 
             // txtBxTotalClickCounter
             // 
+<<<<<<< HEAD
             this.txtBxTotalClickCounter.Location = new System.Drawing.Point(267, 309);
+=======
+            this.txtBxTotalClickCounter.Location = new System.Drawing.Point(151, 162);
+>>>>>>> de3253b... Refactoring source code
             this.txtBxTotalClickCounter.Name = "txtBxTotalClickCounter";
             this.txtBxTotalClickCounter.ReadOnly = true;
             this.txtBxTotalClickCounter.Size = new System.Drawing.Size(67, 20);
             this.txtBxTotalClickCounter.TabIndex = 8;
+<<<<<<< HEAD
             // 
             // lblTotalClickCount
             // 
@@ -183,6 +228,36 @@
             this.Controls.Add(this.lblKeyClickCount);
             this.Name = "MainForm";
             this.Text = "Questions";
+=======
+            this.txtBxTotalClickCounter.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(41, 165);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(88, 13);
+            this.label3.TabIndex = 7;
+            this.label3.Text = "Total Click Count";
+            this.label3.Click += new System.EventHandler(this.label3_Click);
+            // 
+            // Form1
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.ClientSize = new System.Drawing.Size(284, 262);
+            this.Controls.Add(this.txtBxTotalClickCounter);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.btnReset);
+            this.Controls.Add(this.txtBxMouseClick);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.txtBxKeyClick);
+            this.Controls.Add(this.btnStop);
+            this.Controls.Add(this.btnStart);
+            this.Controls.Add(this.label1);
+            this.Name = "Form1";
+            this.Text = "KeyLogger";
+>>>>>>> de3253b... Refactoring source code
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -190,11 +265,16 @@
 
         #endregion
 
+<<<<<<< HEAD
         private System.Windows.Forms.Label lblKeyClickCount;
+=======
+        private System.Windows.Forms.Label label1;
+>>>>>>> de3253b... Refactoring source code
         private System.Windows.Forms.Button btnStart;
         private System.Windows.Forms.Button btnStop;
         private System.Windows.Forms.TextBox txtBxKeyClick;
         private System.Windows.Forms.TextBox txtBxMouseClick;
+<<<<<<< HEAD
         private System.Windows.Forms.Label lblMouseClickCount;
         private System.Windows.Forms.Button btnReset;
         private System.Windows.Forms.TextBox txtBxTotalClickCounter;
@@ -204,6 +284,12 @@
         private System.Windows.Forms.Label lblQuestion;
         private System.Windows.Forms.Button btnNext;
         private System.Windows.Forms.Timer timer;
+=======
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Button btnReset;
+        private System.Windows.Forms.TextBox txtBxTotalClickCounter;
+        private System.Windows.Forms.Label label3;
+>>>>>>> de3253b... Refactoring source code
     }
 }
 

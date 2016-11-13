@@ -25,6 +25,7 @@ namespace KeyLogger
         private static int mouseClickCounter = 0;
         private static int totalClickCounter = 0;
         private static MainForm form1;
+<<<<<<< HEAD
         private static string easyQsnFileName = "questionsEasy.txt";
         private static string intmdeQsnFileName = "questionsIntermediate.txt";
         private static string dfcltQsnFileName = "questionsDifficult.txt";
@@ -34,6 +35,8 @@ namespace KeyLogger
         private static DateTime startTime;
         private static DateTime endTime;
 
+=======
+>>>>>>> de3253b... Refactoring source code
 
         private string agreeOrNotMsg = "The information below will be logged.\n" +
                                         "1. Number of keys pressed on the keyboard (not the key itself).\n" +
@@ -41,8 +44,11 @@ namespace KeyLogger
                                         "3. Total of time used. \n\n" +
                                         "Do you agree?";
 
+<<<<<<< HEAD
         private static string finishMsg = "Thank you for participating the survey.";
 
+=======
+>>>>>>> de3253b... Refactoring source code
 
         public MainForm()
         {
@@ -50,6 +56,7 @@ namespace KeyLogger
             //code is inside of the MainForm.Designer.cs file
             InitializeComponent();
 
+<<<<<<< HEAD
             //initialize questions
             InitializeQuestions();
 
@@ -57,13 +64,19 @@ namespace KeyLogger
             OrderQuestions();
             
 
+=======
+>>>>>>> de3253b... Refactoring source code
             //Check user agrement
             //If agree then show questions and track clicks.
             //If not agree then 
             //      If Protege is open close Protege
             //      Safely close this program.
 
+<<<<<<< HEAD
             DialogResult result = MessageBox.Show(agreeOrNotMsg, "User Agreement", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+=======
+            DialogResult result = MessageBox.Show(agreeOrNotMsg, "Agree or not", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+>>>>>>> de3253b... Refactoring source code
             if (result == DialogResult.Yes)
             {
                 _hookIDKey = SetHook(_procKey);
@@ -71,6 +84,7 @@ namespace KeyLogger
                 form1 = this; // (Form1)Application.OpenForms[0];
                 btnStart.Enabled = false;
                 btnStop.Enabled = true;
+<<<<<<< HEAD
 
                 //manually set currentQuestionNo = -1.
                 // as static variable initializes to 0.
@@ -78,6 +92,8 @@ namespace KeyLogger
                 MessageBox.Show(currentQuestionNo.ToString());
                 //showCurrentQuestion
                 btnNext_Click(null, null);
+=======
+>>>>>>> de3253b... Refactoring source code
             }
             else if (result == DialogResult.No)
             {
@@ -96,6 +112,10 @@ namespace KeyLogger
                         {
 
                         }
+<<<<<<< HEAD
+=======
+
+>>>>>>> de3253b... Refactoring source code
                     }
 
                 }
@@ -105,6 +125,7 @@ namespace KeyLogger
 
         }
 
+<<<<<<< HEAD
         //Show Questions
         private static void ShowQuestions()
         {
@@ -256,6 +277,8 @@ namespace KeyLogger
         {
 
         }
+=======
+>>>>>>> de3253b... Refactoring source code
         //Button to start tracking manually
         private void btnStart_Click(object sender, EventArgs e)
         {
@@ -268,6 +291,7 @@ namespace KeyLogger
             _hookIDKey = SetHook(_procKey);
             _hookIDMouse = SetHook(_procMouse);
 
+<<<<<<< HEAD
             //enable and disable corresponding button
             btnStart.Enabled = false;
             btnStop.Enabled = true;
@@ -283,11 +307,27 @@ namespace KeyLogger
             UnhookWindowsHookEx(_hookIDMouse);
 
             //enable and disable corresponding button
+=======
+            //enable and disable corresponding keys
+            btnStart.Enabled = false;
+            btnStop.Enabled = true;
+            // form1 = (Form1)Application.OpenForms[0];
+        }
+
+        private void btnStop_Click(object sender, EventArgs e)
+        {
+            UnhookWindowsHookEx(_hookIDKey);
+            UnhookWindowsHookEx(_hookIDMouse);
+
+>>>>>>> de3253b... Refactoring source code
             btnStart.Enabled = true;
             btnStop.Enabled = false;
         }
 
+<<<<<<< HEAD
         //Set Keyboard Hook
+=======
+>>>>>>> de3253b... Refactoring source code
         private static IntPtr SetHook(LowLevelKeyboardProc proc)
         {
             using (Process curProcess = Process.GetCurrentProcess())
@@ -298,7 +338,10 @@ namespace KeyLogger
             }
         }
 
+<<<<<<< HEAD
         ////Set Mouse Hook
+=======
+>>>>>>> de3253b... Refactoring source code
         private static IntPtr SetHook(LowLevelMouseProc proc)
         {
             using (Process curProcess = Process.GetCurrentProcess())
@@ -312,7 +355,10 @@ namespace KeyLogger
         private delegate IntPtr LowLevelKeyboardProc(int nCode, IntPtr wParam, IntPtr lParam);
         private delegate IntPtr LowLevelMouseProc(int nCode, IntPtr wParam, IntPtr lParam);
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> de3253b... Refactoring source code
         private static IntPtr HookCallbackKey(
             int nCode, IntPtr wParam, IntPtr lParam)
         {
@@ -324,7 +370,10 @@ namespace KeyLogger
                 //sw.WriteLine((Keys)vkCode);
                 //sw.Close();
                 keyClickCounter++;
+<<<<<<< HEAD
                 form1.lblStatus.Text = "Writing: " + keyClickCounter.ToString() + "th string";
+=======
+>>>>>>> de3253b... Refactoring source code
             }
 
 
@@ -417,7 +466,10 @@ namespace KeyLogger
 
         const int SW_HIDE = 1;
 
+<<<<<<< HEAD
         //manually reset all counters
+=======
+>>>>>>> de3253b... Refactoring source code
         private void btnReset_Click(object sender, EventArgs e)
         {
             //StreamWriter sw = new StreamWriter(Application.StartupPath + @"\log.txt", false);
@@ -430,9 +482,38 @@ namespace KeyLogger
             txtBxTotalClickCounter.Text = totalClickCounter.ToString();
         }
 
+<<<<<<< HEAD
         [DllImport("user32")]
         public static extern void LockWorkStation();
 
 
+=======
+        private void label3_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        [DllImport("user32")]
+        public static extern void LockWorkStation();
+        private void button1_Click(object sender, EventArgs e)
+        {
+            // LockWorkStation();
+            Process[] process = Process.GetProcesses();
+            foreach (Process p in process)
+            {
+                if (p.ProcessName.StartsWith("javaw"))
+                {
+                    MessageBox.Show(p.ProcessName);
+                    p.Kill();
+                }
+
+            }
+        }
+>>>>>>> de3253b... Refactoring source code
     }
 }
