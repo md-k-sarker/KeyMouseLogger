@@ -25,12 +25,23 @@ namespace KeyLogger
         private static int mouseClickCounter = 0;
         private static int totalClickCounter = 0;
         private static MainForm form1;
+        private static string easyQsnFileName = "questionsEasy.txt";
+        private static string intmdeQsnFileName = "questionsIntermediate.txt";
+        private static string dfcltQsnFileName = "questionsDifficult.txt";
+        private static string statFileName = "statistics.txt";
+        private static Questions[] questionObs = new Questions[12];
+        private static int currentQuestionNo;
+        private static DateTime startTime;
+        private static DateTime endTime;
+
 
         private string agreeOrNotMsg = "The information below will be logged.\n" +
                                         "1. Number of keys pressed on the keyboard (not the key itself).\n" +
                                         "2. Number of mouse clicks.\n" +
                                         "3. Total of time used. \n\n" +
                                         "Do you agree?";
+
+        private static string finishMsg = "Thank you for participating the survey.";
 
 
         public MainForm()
@@ -39,13 +50,20 @@ namespace KeyLogger
             //code is inside of the MainForm.Designer.cs file
             InitializeComponent();
 
+            //initialize questions
+            InitializeQuestions();
+
+            //order questions according to group
+            OrderQuestions();
+            
+
             //Check user agrement
             //If agree then show questions and track clicks.
             //If not agree then 
             //      If Protege is open close Protege
             //      Safely close this program.
 
-            DialogResult result = MessageBox.Show(agreeOrNotMsg, "Agree or not", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            DialogResult result = MessageBox.Show(agreeOrNotMsg, "User Agreement", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (result == DialogResult.Yes)
             {
                 _hookIDKey = SetHook(_procKey);
@@ -53,6 +71,13 @@ namespace KeyLogger
                 form1 = this; // (Form1)Application.OpenForms[0];
                 btnStart.Enabled = false;
                 btnStop.Enabled = true;
+
+                //manually set currentQuestionNo = -1.
+                // as static variable initializes to 0.
+                currentQuestionNo = -1;
+                MessageBox.Show(currentQuestionNo.ToString());
+                //showCurrentQuestion
+                btnNext_Click(null, null);
             }
             else if (result == DialogResult.No)
             {
@@ -71,7 +96,6 @@ namespace KeyLogger
                         {
 
                         }
-
                     }
 
                 }
@@ -81,6 +105,157 @@ namespace KeyLogger
 
         }
 
+        //Show Questions
+        private static void ShowQuestions()
+        {
+            if (currentQuestionNo < 12)
+            {
+                form1.lblQuestionNo.Text = "Question: "+ (currentQuestionNo + 1).ToString();
+                form1.lblQuestion.Text = questionObs[currentQuestionNo].Question;
+                if(currentQuestionNo == 11)
+                {
+                    form1.btnNext.Text = "Finish";
+                }
+            }
+            else
+            {
+                form1.btnNext.Enabled = false;
+                MessageBox.Show(finishMsg);
+            }
+        }
+
+        private void btnNext_Click(object sender, EventArgs e)
+        {
+
+            if (currentQuestionNo > -1 && currentQuestionNo < 12)
+            {
+                endTime = DateTime.Now;
+                WriteStatistics();
+            }
+            currentQuestionNo++;
+            InitializeCounter();
+            ShowQuestions();
+        }
+
+        private TimeSpan getSpentTime()
+        {
+            TimeSpan t = endTime - startTime;
+            return t;
+        }
+
+        private string getToolUsed(int qNo)
+        {
+            string tool = "";
+            if(questionObs[qNo].ModelIn == 0)
+            {
+                tool = "ROWLTab Plugin.";
+            }
+            else
+            {
+                tool = "Bare Protege.";
+            }
+            return tool;
+        }
+
+        //statistics will start to write as follows
+        // 1,2,3,.....,12
+        //rather than 
+        // 0,1,2,.....,11
+        private void WriteStatistics()
+        {
+
+            int qNo = currentQuestionNo + 1;
+
+            if (qNo > 0 && qNo < 13)
+            {
+                using (StreamWriter w = File.AppendText(statFileName))
+                {
+                    w.WriteLine("Question {0}: " + questionObs[qNo-1].Question, qNo);
+                    w.WriteLine("Tool Used: "+ getToolUsed(qNo - 1));
+                    w.WriteLine("Number of mouse clicks: " + mouseClickCounter.ToString());
+                    w.WriteLine("Number of keys pressed:  " + keyClickCounter.ToString());
+                    TimeSpan t = getSpentTime();
+                    w.WriteLine("Total of time used: {0} hour, {1} minutes, {2} seconds, {3} miliseconds." , t.Hours,t.Minutes,t.Seconds,t.Milliseconds);
+                    w.WriteLine("");
+                }
+            }
+        }
+
+        private void InitializeCounter()
+        {
+            keyClickCounter = 0;
+            mouseClickCounter = 0;
+            totalClickCounter = 0;
+            startTime = DateTime.Now;
+        }
+
+        //0 for ROWL
+        //1 for bare Protege
+        private static int getTool(int counter)
+        {
+            if (counter % 2 == 0)
+                return 0;
+            else
+                return 1;
+        }
+
+        //Initialize and set questions
+        private static void InitializeQuestions()
+        {
+            currentQuestionNo = 0;
+            int qCounter = 0;
+            int tool = 0;
+            //readTxt file for questions
+            StreamReader streamReader = new StreamReader(easyQsnFileName);
+
+            while(!streamReader.EndOfStream)
+            {
+                string line = streamReader.ReadLine();
+                if(!line.StartsWith("#") && line.Length > 1)
+                {
+                    tool = getTool(qCounter);
+                    questionObs[qCounter] = new Questions(0, line, tool);
+                    qCounter++;
+                }
+            }
+
+            streamReader.Close();
+
+            streamReader = new StreamReader(intmdeQsnFileName);
+
+            while (!streamReader.EndOfStream)
+            {
+                string line = streamReader.ReadLine();
+                if (!line.StartsWith("#") && line.Length > 1)
+                {
+                    tool = getTool(qCounter);
+                    questionObs[qCounter] = new Questions(1, line, tool);
+                    qCounter++;
+                }
+            }
+
+            streamReader.Close();
+
+            streamReader = new StreamReader(dfcltQsnFileName);
+
+            while (!streamReader.EndOfStream)
+            {
+                string line = streamReader.ReadLine();
+                if (!line.StartsWith("#") && line.Length > 1)
+                {
+                    tool = getTool(qCounter);
+                    questionObs[qCounter] = new Questions(2, line, tool);
+                    qCounter++;
+                }
+            }
+
+            streamReader.Close();
+        }
+
+        private static void OrderQuestions()
+        {
+
+        }
         //Button to start tracking manually
         private void btnStart_Click(object sender, EventArgs e)
         {
@@ -93,21 +268,26 @@ namespace KeyLogger
             _hookIDKey = SetHook(_procKey);
             _hookIDMouse = SetHook(_procMouse);
 
-            //enable and disable corresponding keys
+            //enable and disable corresponding button
             btnStart.Enabled = false;
             btnStop.Enabled = true;
+
             // form1 = (Form1)Application.OpenForms[0];
         }
 
+        //Button to stop tracking manually
         private void btnStop_Click(object sender, EventArgs e)
         {
+            //remove tracking handler
             UnhookWindowsHookEx(_hookIDKey);
             UnhookWindowsHookEx(_hookIDMouse);
 
+            //enable and disable corresponding button
             btnStart.Enabled = true;
             btnStop.Enabled = false;
         }
 
+        //Set Keyboard Hook
         private static IntPtr SetHook(LowLevelKeyboardProc proc)
         {
             using (Process curProcess = Process.GetCurrentProcess())
@@ -118,6 +298,7 @@ namespace KeyLogger
             }
         }
 
+        ////Set Mouse Hook
         private static IntPtr SetHook(LowLevelMouseProc proc)
         {
             using (Process curProcess = Process.GetCurrentProcess())
@@ -131,6 +312,7 @@ namespace KeyLogger
         private delegate IntPtr LowLevelKeyboardProc(int nCode, IntPtr wParam, IntPtr lParam);
         private delegate IntPtr LowLevelMouseProc(int nCode, IntPtr wParam, IntPtr lParam);
 
+
         private static IntPtr HookCallbackKey(
             int nCode, IntPtr wParam, IntPtr lParam)
         {
@@ -142,6 +324,7 @@ namespace KeyLogger
                 //sw.WriteLine((Keys)vkCode);
                 //sw.Close();
                 keyClickCounter++;
+                form1.lblStatus.Text = "Writing: " + keyClickCounter.ToString() + "th string";
             }
 
 
@@ -234,6 +417,7 @@ namespace KeyLogger
 
         const int SW_HIDE = 1;
 
+        //manually reset all counters
         private void btnReset_Click(object sender, EventArgs e)
         {
             //StreamWriter sw = new StreamWriter(Application.StartupPath + @"\log.txt", false);
@@ -246,31 +430,9 @@ namespace KeyLogger
             txtBxTotalClickCounter.Text = totalClickCounter.ToString();
         }
 
-        private void label3_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void textBox1_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
         [DllImport("user32")]
         public static extern void LockWorkStation();
-        private void button1_Click(object sender, EventArgs e)
-        {
-            // LockWorkStation();
-            Process[] process = Process.GetProcesses();
-            foreach (Process p in process)
-            {
-                if (p.ProcessName.StartsWith("javaw"))
-                {
-                    MessageBox.Show(p.ProcessName);
-                    p.Kill();
-                }
 
-            }
-        }
+
     }
 }
